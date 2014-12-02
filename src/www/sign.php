@@ -1,6 +1,6 @@
 <?php
 //
-// Change the following settings
+// customize this file as you need
 //
 use \DQNEO\S3Signer\Signer;
 
