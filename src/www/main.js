@@ -6,10 +6,11 @@ Uploader.onupload = function (event){
   var files = event.target.files;
   var output = [];
   var acl = 'public-read';
+  var dir = '12022129/';
 
   for (var i = 0; i < files.length; i++) {
     var file = files[i];
-    var key = "1202/" + file.name;
+    var key = dir +  file.name;
     var contentType = file.type;
     var meta = {myname: "DQNEO"};
     var url = 'sign.php?bucket=' + bucket + '&key=' + key + '&type=' + contentType + '&acl=' + acl + '&myname=' + meta.myname;
