@@ -1,3 +1,8 @@
+window.onload = function() {
+    document.getElementById('files').addEventListener('change', handleFileSelect, false);
+    setProgress(0, 'Waiting for upload.');
+};
+
 function createCORSRequest(method, url) 
 {
   var xhr = new XMLHttpRequest();
