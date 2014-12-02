@@ -1,9 +1,6 @@
 var Uploader = {};
 
-Uploader.onupload = function (event){
-  this.onProgress(0, 'Upload started.');
-  var files = event.target.files;
-
+Uploader.uploadFiles = function (files) {
   for (var i = 0; i < files.length; i++) {
     var file = files[i];
     var key = this.config.prefix +  file.name;

@@ -19,7 +19,10 @@
 
    window.onload = function() {
      document.getElementById('files').addEventListener('change',
-       function(event){ Uploader.onupload(event); }
+       function(event){
+         var files = event.target.files;
+         Uploader.uploadFiles(files);
+       }
        , false);
      Uploader.onProgress(0, 'Waiting for upload.');
    };
