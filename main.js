@@ -74,32 +74,32 @@ function uploadToS3(file, url)
 {
   var xhr = newCORSXHR('PUT', url);
   if (!xhr) {
-    setProgress(0, 'CORS not supported');
-  } else {
-    xhr.onload = function() {
-      if(xhr.status == 200){
-        setProgress(100, 'Upload completed.');
-      } else {
-        setProgress(0, 'Upload error: ' + xhr.status);
-      }
-    };
-
-    xhr.onerror = function()     {
-      setProgress(0, 'XHR error.');
-    };
-
-    xhr.upload.onprogress = function(e)     {
-      if (e.lengthComputable)       {
-        var percentLoaded = Math.round((e.loaded / e.total) * 100);
-        setProgress(percentLoaded, percentLoaded == 100 ? 'Finalizing.' : 'Uploading.');
-      }
-    };
-
-    xhr.setRequestHeader('Content-Type', file.type);
-    xhr.setRequestHeader('x-amz-acl', 'public-read');
-
-    xhr.send(file);
+    return false;
   }
+
+  xhr.onload = function() {
+    if(xhr.status == 200){
+      setProgress(100, 'Upload completed.');
+    } else {
+      setProgress(0, 'Upload error: ' + xhr.status);
+    }
+  };
+
+  xhr.onerror = function()     {
+    setProgress(0, 'XHR error.');
+  };
+
+  xhr.upload.onprogress = function(e)     {
+    if (e.lengthComputable)       {
+      var percentLoaded = Math.round((e.loaded / e.total) * 100);
+      setProgress(percentLoaded, percentLoaded == 100 ? 'Finalizing.' : 'Uploading.');
+    }
+  };
+
+  xhr.setRequestHeader('Content-Type', file.type);
+  xhr.setRequestHeader('x-amz-acl', 'public-read');
+
+  xhr.send(file);
 }
 
 function setProgress(percent, statusLabel)
