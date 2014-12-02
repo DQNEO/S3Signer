@@ -20,11 +20,11 @@ $acl = $_GET['acl'];
 $amzHeaders = [];
 $amzHeaders[] = "x-amz-acl:" . $acl;
 
-$url = getURL($cred['key'], $cred['secret'], $endpoint, $bucket, $objectKey, $expires, $mimeType, $amzHeaders);
+$url = getSignedURL('PUT', $cred['key'], $cred['secret'], $endpoint, $bucket, $objectKey, $expires, $mimeType, $amzHeaders);
 header("Content-typte: application/json");
 echo json_encode(['url' =>$url]);
 
-function getURL($key, $secret, $endpoint, $bucket, $objectKey, $expires, $contentType, array $amzHeaders)
+function getSignedURL($httpVerb, $key, $secret, $endpoint, $bucket, $objectKey, $expires, $contentType, array $amzHeaders)
 {
     // for calculation of Signature, see
     // http://docs.aws.amazon.com/AmazonS3/latest/dev/RESTAuthentication.html#ConstructingTheAuthenticationHeader
