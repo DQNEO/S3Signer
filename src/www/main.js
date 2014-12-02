@@ -1,27 +1,27 @@
 var Uploader = {};
-  Uploader.onupload = function (event){
-    Uploader.onProgress(0, 'Upload started.');
-    var bucket = "tmpdqneo";
-    var files = event.target.files;
-    var output = [];
-    var acl = 'public-read';
 
-    for (var i = 0; i < files.length; i++) {
-      var file = files[i];
-      var key = "1202/" + file.name;
-      var contentType = file.type;
-      var meta = {myname: "DQNEO"};
-      var url = 'sign.php?bucket=' + bucket + '&key=' + key + '&type=' + contentType + '&acl=' + acl + '&myname=' + meta.myname;
+Uploader.onupload = function (event){
+  Uploader.onProgress(0, 'Upload started.');
+  var bucket = "tmpdqneo";
+  var files = event.target.files;
+  var output = [];
+  var acl = 'public-read';
 
-      Uploader.ajax(url,
-           function(responseJson){// on success
-             Uploader.uploadToS3(file, decodeURIComponent(responseJson.url), acl, meta);
-           },
-           function(status) {// on error
-             Uploader.onProgress(0, 'Could not contact signing script. Status = ' + status);
-           });
-    }
-  };
+  for (var i = 0; i < files.length; i++) {
+    var file = files[i];
+    var key = "1202/" + file.name;
+    var contentType = file.type;
+    var meta = {myname: "DQNEO"};
+    var url = 'sign.php?bucket=' + bucket + '&key=' + key + '&type=' + contentType + '&acl=' + acl + '&myname=' + meta.myname;
+    Uploader.ajax(url,
+                  function(responseJson){// on success
+                    Uploader.uploadToS3(file, decodeURIComponent(responseJson.url), acl, meta);
+                  },
+                  function(status) {// on error
+                    Uploader.onProgress(0, 'Could not contact signing script. Status = ' + status);
+                  });
+  }
+};
 
 /**
  * get Signed URL and Execute the callback
