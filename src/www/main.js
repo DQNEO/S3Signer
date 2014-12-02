@@ -116,7 +116,5 @@ function setProgress(percent, statusLabel)
 {
   document.getElementById('pbar').value = percent;
   document.getElementById('pbar').max = 100;
-
-  document.getElementById('progress_bar').className = 'loading';
   document.getElementById('status').innerText = statusLabel;
 }
