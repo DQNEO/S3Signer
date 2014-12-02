@@ -10,13 +10,15 @@ window.onload = function() {
       var file = files[i];
       var key = "1202/" + file.name;
       var contentType = file.type;
-      getSignedUrl(bucket, key, contentType,
-                   function(responseJson){// on success
-                     uploadToS3(file, responseJson.url);
-                   },
-                   function(status) {// on error
-                     setProgress(0, 'Could not contact signing script. Status = ' + status);
-                   });
+      var url = 'sign.php?bucket=' + bucket + '&key=' + key + '&type=' + contentType;
+
+      ajax(url,
+           function(responseJson){// on success
+             uploadToS3(file, responseJson.url);
+           },
+           function(status) {// on error
+             setProgress(0, 'Could not contact signing script. Status = ' + status);
+           });
     }
   }
   , false);
@@ -29,9 +31,8 @@ window.onload = function() {
 /**
  * get Signed URL and Execute the callback
  */
-function getSignedUrl(bucketName, objectKey, contentType, onSuccess, onError)
+function ajax(url, onSuccess, onError)
 {
-  var url = 'sign.php?bucket=' + bucketName + '&key=' + objectKey + '&type=' + contentType;
   var xhr = new XMLHttpRequest();
   xhr.open('GET', url, true);
 
