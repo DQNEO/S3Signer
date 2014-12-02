@@ -1,5 +1,6 @@
 window.onload = function() {
 
+  var bucket = "tmpdqneo";
   document.getElementById('files').addEventListener('change', function (event){
     setProgress(0, 'Upload started.');
     var files = event.target.files;
@@ -7,7 +8,7 @@ window.onload = function() {
 
     for (var i = 0; i < files.length; i++) {
       var file = files[i];
-      getSignedUrl(file, function(signedURL){
+      getSignedUrl(bucket, file, function(signedURL){
         uploadToS3(file, signedURL);
       });
     }
@@ -22,9 +23,9 @@ window.onload = function() {
 /**
  * get Signed URL and Execute the callback
  */
-function getSignedUrl(file, callback)
+function getSignedUrl(bucket, file, callback)
 {
-  var url = 'signput.php?name=' + file.name + '&type=' + file.type;
+  var url = 'signput.php?bucket=' + bucket + '&name=' + file.name + '&type=' + file.type;
   var xhr = new XMLHttpRequest();
   xhr.open('GET', url, true);
 
