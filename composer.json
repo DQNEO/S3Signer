@@ -1,0 +1,17 @@
+{
+  "name": "dqneo/s3signer",
+  "description": "a library for AmazonS3 direct uploading",
+  "type": "library",
+  "license": "GPL3",
+  "keywords": [ "AmazonS3", "aws" ],
+  "homepage": "https://github.com/DQNEO/S3Signer",
+  "authors": [
+        { "name": "DQNEO", "role" : "Administrator"}
+  ],
+  "require": {
+    "php" : ">=5.4.0"
+  },
+  "require-dev" : {
+    "phpunit/phpunit": "3.7.*"
+  }
+}
