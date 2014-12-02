@@ -14,7 +14,7 @@ window.onload = function() {
 
       ajax(url,
            function(responseJson){// on success
-             uploadToS3(file, responseJson.url);
+             uploadToS3(file, decodeURIComponent(responseJson.url));
            },
            function(status) {// on error
              setProgress(0, 'Could not contact signing script. Status = ' + status);
