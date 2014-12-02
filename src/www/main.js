@@ -112,7 +112,7 @@ function uploadToS3(file, url, acl, metadata)
   xhr.send(file);
 }
 
-function setProgress(percent, statusLabel)
+var setProgress = function(percent, statusLabel)
 {
   document.getElementById('pbar').value = percent;
   document.getElementById('pbar').max = 100;
