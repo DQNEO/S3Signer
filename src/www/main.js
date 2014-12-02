@@ -1,6 +1,6 @@
 var Uploader;
   Uploader = function (event){
-    setProgress(0, 'Upload started.');
+    onProgress(0, 'Upload started.');
     var bucket = "tmpdqneo";
     var files = event.target.files;
     var output = [];
@@ -18,7 +18,7 @@ var Uploader;
              uploadToS3(file, decodeURIComponent(responseJson.url), acl, meta);
            },
            function(status) {// on error
-             setProgress(0, 'Could not contact signing script. Status = ' + status);
+             onProgress(0, 'Could not contact signing script. Status = ' + status);
            });
     }
   };
@@ -27,7 +27,7 @@ window.onload = function() {
 
   document.getElementById('files').addEventListener('change', Uploader, false);
 
-  setProgress(0, 'Waiting for upload.');
+  onProgress(0, 'Waiting for upload.');
 };
 
 
@@ -83,20 +83,20 @@ function uploadToS3(file, url, acl, metadata)
 
   xhr.onload = function() {
     if(xhr.status == 200){
-      setProgress(100, 'Upload completed.');
+      onProgress(100, 'Upload completed.');
     } else {
-      setProgress(0, 'Upload error: ' + xhr.status);
+      onProgress(0, 'Upload error: ' + xhr.status);
     }
   };
 
   xhr.onerror = function()     {
-    setProgress(0, 'XHR error.');
+    onProgress(0, 'XHR error.');
   };
 
   xhr.upload.onprogress = function(e)     {
     if (e.lengthComputable)       {
       var percentLoaded = Math.round((e.loaded / e.total) * 100);
-      setProgress(percentLoaded, percentLoaded == 100 ? 'Finalizing.' : 'Uploading.');
+      onProgress(percentLoaded, percentLoaded == 100 ? 'Finalizing.' : 'Uploading.');
     }
   };
 
