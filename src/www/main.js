@@ -4,17 +4,14 @@ Uploader.onupload = function (event){
   this.onProgress(0, 'Upload started.');
   var files = event.target.files;
 
-  var bucket = "tmpdqneo";
-  var acl = 'public-read';
-  var dir = '12022129/';
-  var meta = {foo:"bar",};
-
   for (var i = 0; i < files.length; i++) {
     var file = files[i];
-    var key = dir +  file.name;
+    var key = this.config.prefix +  file.name;
     var contentType = file.type;
-    var url = 'sign.php?bucket=' + bucket + '&key=' + key + '&type=' + contentType + '&acl=' + acl;
+    var acl = this.config.acl;
+    var meta = this.config.meta;
 
+    var url = 'sign.php?bucket=' + this.config.bucket + '&key=' + key + '&type=' + contentType + '&acl=' + acl;
     for (var prop in meta) {
       url += '&' + prop + '=' + meta[prop];
     }

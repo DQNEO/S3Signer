@@ -4,6 +4,13 @@
   <title>Example page of using AmazonS3 direct upload</title>
  <script src="main.js"></script>
  <script>
+   Uploader.config = {
+     bucket : "tmpdqneo",
+     acl : "public-read",
+     prefix : "12022129/",
+     meta : {foo:"bar",},
+   };
+
    Uploader.onProgress = function(percent, statusLabel) {
      document.getElementById('pbar').value = percent;
      document.getElementById('pbar').max = 100;
