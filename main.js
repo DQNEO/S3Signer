@@ -11,11 +11,12 @@ window.onload = function() {
       var file = files[i];
       var key = "1202/" + file.name;
       var contentType = file.type;
-      var url = 'sign.php?bucket=' + bucket + '&key=' + key + '&type=' + contentType + '&acl=' + acl;
+      var meta = {myname: "DQNEO"};
+      var url = 'sign.php?bucket=' + bucket + '&key=' + key + '&type=' + contentType + '&acl=' + acl + '&myname=' + meta.myname;
 
       ajax(url,
            function(responseJson){// on success
-             uploadToS3(file, decodeURIComponent(responseJson.url), acl);
+             uploadToS3(file, decodeURIComponent(responseJson.url), acl, meta);
            },
            function(status) {// on error
              setProgress(0, 'Could not contact signing script. Status = ' + status);
@@ -71,7 +72,7 @@ function newCORSXHR(method, url) {
  * Use a CORS call to upload the given file to S3. Assumes the url
  * parameter has been signed and is accessable for upload.
  */
-function uploadToS3(file, url, acl)
+function uploadToS3(file, url, acl, metadata)
 {
   var xhr = newCORSXHR('PUT', url);
   if (!xhr) {
@@ -99,7 +100,12 @@ function uploadToS3(file, url, acl)
 
   xhr.setRequestHeader('Content-Type', file.type);
   xhr.setRequestHeader('x-amz-acl', acl);
-  xhr.setRequestHeader('x-amz-meta-myname', "DQNEO");
+
+  if (metadata) {
+    for(var k in metadata) {
+      xhr.setRequestHeader('x-amz-meta-' + k, metadata[k]);
+    }
+  }
 
   xhr.send(file);
 }
