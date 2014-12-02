@@ -1,4 +1,4 @@
-# An PHP library for AmazonS3 direct uploading
+# A PHP library for AmazonS3 direct uploading
 
 You can upload files from your browser directly to AmazonS3.
 
