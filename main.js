@@ -1,19 +1,20 @@
 window.onload = function() {
 
   document.getElementById('files').addEventListener('change', function (event){
-      setProgress(0, 'Upload started.');
-      var files = event.target.files;
-      var output = [];
-      for (var i = 0; i < files.length; i++) {
-        var file = files[i];
-        getSignedUrl(file, function(signedURL){
-          uploadToS3(file, signedURL);
-        });
-      }
-    }
-, false);
+    setProgress(0, 'Upload started.');
+    var files = event.target.files;
+    var output = [];
 
-    setProgress(0, 'Waiting for upload.');
+    for (var i = 0; i < files.length; i++) {
+      var file = files[i];
+      getSignedUrl(file, function(signedURL){
+        uploadToS3(file, signedURL);
+      });
+    }
+  }
+                                                    , false);
+
+  setProgress(0, 'Waiting for upload.');
 };
 
 
