@@ -1,7 +1,7 @@
 var Uploader = {};
 
 Uploader.onupload = function (event){
-  Uploader.onProgress(0, 'Upload started.');
+  this.onProgress(0, 'Upload started.');
   var bucket = "tmpdqneo";
   var files = event.target.files;
   var output = [];
@@ -13,7 +13,7 @@ Uploader.onupload = function (event){
     var contentType = file.type;
     var meta = {myname: "DQNEO"};
     var url = 'sign.php?bucket=' + bucket + '&key=' + key + '&type=' + contentType + '&acl=' + acl + '&myname=' + meta.myname;
-    Uploader.ajax(url,
+    this.ajax(url,
                   function(responseJson){// on success
                     Uploader.uploadToS3(file, decodeURIComponent(responseJson.url), acl, meta);
                   },
