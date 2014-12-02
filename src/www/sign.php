@@ -11,7 +11,6 @@ $now = time();
 //$now = 1234567890;
 
 $expires= $now + (60 * 5); // 5 minutes later
-$endpoint='http://s3-ap-northeast-1.amazonaws.com';
 $bucket = $_GET['bucket'];
 $objectKey=$_GET['key'];
 $mimeType=$_GET['type'];
@@ -22,6 +21,6 @@ $metas = [
     ];
 $acl = $_GET['acl'];
 
-$url = Signer::getSignedURL('PUT', $cred['key'], $cred['secret'], $endpoint, $bucket, $objectKey, $expires, $mimeType, $acl, $metas);
+$url = Signer::getSignedURL('PUT', $cred['key'], $cred['secret'], Signer::ENDPOINT_TOKYO, $bucket, $objectKey, $expires, $mimeType, $acl, $metas);
 header("Content-typte: application/json");
 echo json_encode(['url' =>$url]);

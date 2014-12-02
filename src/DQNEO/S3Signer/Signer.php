@@ -6,6 +6,8 @@ namespace DQNEO\S3Signer;
  */
 class Signer
 {
+    const ENDPOINT_TOKYO = 'http://s3-ap-northeast-1.amazonaws.com';
+
     /**
      * generate a URL
      * @return string $url
