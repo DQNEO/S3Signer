@@ -4,8 +4,8 @@ window.onload = function() {
       setProgress(0, 'Upload started.');
       var files = event.target.files;
       var output = [];
-      for (var i = 0, f; f = files[i]; i++) {
-        uploadFile(f);
+      for (var i = 0; i < files.length; i++) {
+        uploadFile(files[i]);
       }
     }
 , false);
