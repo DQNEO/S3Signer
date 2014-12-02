@@ -3,6 +3,13 @@
 <head>
   <title>Example page of using AmazonS3 direct upload</title>
  <script src="main.js"></script>
+ <script>
+   var setProgress = function(percent, statusLabel) {
+     document.getElementById('pbar').value = percent;
+     document.getElementById('pbar').max = 100;
+     document.getElementById('status').innerText = statusLabel;
+   }
+ </script>
 </head>
 
 <body>
