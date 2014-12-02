@@ -23,15 +23,6 @@ var Uploader;
     }
   };
 
-window.onload = function() {
-
-  document.getElementById('files').addEventListener('change', Uploader, false);
-
-  onProgress(0, 'Waiting for upload.');
-};
-
-
-
 /**
  * get Signed URL and Execute the callback
  */

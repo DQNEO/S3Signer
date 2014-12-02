@@ -9,6 +9,15 @@
      document.getElementById('pbar').max = 100;
      document.getElementById('status').innerText = statusLabel;
    }
+
+   window.onload = function() {
+
+   document.getElementById('files').addEventListener('change', Uploader, false);
+   onProgress(0, 'Waiting for upload.');
+   };
+
+
+
  </script>
 </head>
 
