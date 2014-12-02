@@ -1,7 +1,18 @@
 window.onload = function() {
-    document.getElementById('files').addEventListener('change', handleFileSelect, false);
+
+  document.getElementById('files').addEventListener('change', function (event){
+      setProgress(0, 'Upload started.');
+      var files = event.target.files;
+      var output = [];
+      for (var i = 0, f; f = files[i]; i++) {
+        uploadFile(f);
+      }
+    }
+, false);
+
     setProgress(0, 'Waiting for upload.');
 };
+
 
 function createCORSRequest(method, url) {
   var xhr = new XMLHttpRequest();
@@ -16,16 +27,6 @@ function createCORSRequest(method, url) {
   return xhr;
 }
 
-function handleFileSelect(evt) {
-  setProgress(0, 'Upload started.');
-
-  var files = evt.target.files;
-
-  var output = [];
-  for (var i = 0, f; f = files[i]; i++) {
-    uploadFile(f);
-  }
-}
 
 /**
  * Execute the given callback with the signed response.
