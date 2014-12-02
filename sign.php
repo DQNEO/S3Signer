@@ -11,14 +11,10 @@ $now = time();
 $expires= $now + (60 * 5); // 5 minutes later
 $endpoint='http://s3-ap-northeast-1.amazonaws.com';
 $bucket = $_GET['bucket'];
-
 $objectKey=$_GET['key'];
-
 $mimeType=$_GET['type'];
-$acl = $_GET['acl'];
-
 $amzHeaders = [];
-$amzHeaders[] = "x-amz-acl:" . $acl;
+$amzHeaders[] = "x-amz-acl:" . $_GET['acl'];
 
 $url = getSignedURL('PUT', $cred['key'], $cred['secret'], $endpoint, $bucket, $objectKey, $expires, $mimeType, $amzHeaders);
 header("Content-typte: application/json");
