@@ -6,7 +6,7 @@
 $cred = require_once __DIR__ . '/credentials.php';
 
 $now = time();
-$now = 1234567890;
+//$now = 1234567890;
 
 $expires= $now + (60 * 5); // 5 minutes later
 $endpoint='http://s3-ap-northeast-1.amazonaws.com';
