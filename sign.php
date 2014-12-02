@@ -20,11 +20,13 @@ $metas = [
     ];
 $acl = $_GET['acl'];
 
-$url = getSignedURL('PUT', $cred['key'], $cred['secret'], $endpoint, $bucket, $objectKey, $expires, $mimeType, $acl, $metas);
+$url = S3Signature::getSignedURL('PUT', $cred['key'], $cred['secret'], $endpoint, $bucket, $objectKey, $expires, $mimeType, $acl, $metas);
 header("Content-typte: application/json");
 echo json_encode(['url' =>$url]);
 
-function getSignedURL($httpVerb, $key, $secret, $endpoint, $bucket, $objectKey, $expires, $contentType, $acl, array $metas)
+class S3Signature
+{
+public static function getSignedURL($httpVerb, $key, $secret, $endpoint, $bucket, $objectKey, $expires, $contentType, $acl, array $metas)
 {
     $amzHeaders = [];
     $amzHeaders[] = "x-amz-acl:" . $_GET['acl'];
@@ -33,12 +35,12 @@ function getSignedURL($httpVerb, $key, $secret, $endpoint, $bucket, $objectKey, 
         $amzHeaders[] = sprintf("x-amz-meta-%s:%s", $k, $v);
     }
 
-    $sig = getSignature($httpVerb, $bucket, $objectKey, $amzHeaders, $contentType, $expires, $secret);
+    $sig = self::getSignature($httpVerb, $bucket, $objectKey, $amzHeaders, $contentType, $expires, $secret);
     $url = sprintf("%s/%s/%s?AWSAccessKeyId=%s&Expires=%s&Signature=%s", $endpoint, $bucket, $objectKey   , $key, $expires, urlencode($sig));
     return urlencode($url);
 }
 
-function getSignature($httpVerb, $bucket, $objectKey, array $amzHeaders, $contentType, $expires, $secret)
+public static function getSignature($httpVerb, $bucket, $objectKey, array $amzHeaders, $contentType, $expires, $secret)
 {
     // for calculation of Signature, see
     // http://docs.aws.amazon.com/AmazonS3/latest/dev/RESTAuthentication.html#ConstructingTheAuthenticationHeader
@@ -55,4 +57,5 @@ function getSignature($httpVerb, $bucket, $objectKey, array $amzHeaders, $conten
         . $canonicalizedResource;
 
     return base64_encode(hash_hmac('sha1', $stringToSign, $secret, true));
+}
 }
