@@ -10,8 +10,9 @@ Uploader.onupload = function (event){
     var contentType = file.type;
     var acl = this.config.acl;
     var meta = this.config.meta;
+    var bucket = this.config.bucket;
 
-    var url = 'sign.php?bucket=' + this.config.bucket + '&key=' + key + '&type=' + contentType + '&acl=' + acl;
+    var url = 'sign.php?bucket=' + bucket + '&key=' + key + '&type=' + contentType + '&acl=' + acl;
     for (var prop in meta) {
       url += '&' + prop + '=' + meta[prop];
     }
