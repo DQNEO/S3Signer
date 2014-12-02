@@ -22,10 +22,21 @@ $url = getURL($cred['key'], $cred['secret'], $endpoint, $bucket, $objectKey, $ex
 header("Content-typte: application/json");
 echo json_encode(['url' =>$url]);
 
-function getURL($key, $secret, $endpoint, $bucket, $objectKey, $expires, $acl, $mimeType)
+function getURL($key, $secret, $endpoint, $bucket, $objectKey, $expires, $acl, $contentType)
 {
-    $amzHeaders= "x-amz-acl:" . $acl;
-    $stringToSign = sprintf("PUT\n\n%s\n%s\n%s\n/%s/%s", $mimeType, $expires, $amzHeaders, $bucket, $objectKey);
+    // for calculation of Signature, see
+    // http://docs.aws.amazon.com/AmazonS3/latest/dev/RESTAuthentication.html#ConstructingTheAuthenticationHeader
+    $httpVerb = "PUT";
+    $contentMD5 = "";
+    $canonicalizedResource = sprintf("/%s/%s", $bucket, $objectKey);
+    $canonicalizedAmzHeaders = "x-amz-acl:" . $acl;
+
+    $stringToSign = $httpVerb . "\n"
+        . $contentMD5 . "\n"
+        . $contentType . "\n"
+        . $expires . "\n"
+        . $canonicalizedAmzHeaders . "\n"
+        . $canonicalizedResource;
 
     $sig = base64_encode(hash_hmac('sha1', $stringToSign, $secret, true));
     $url = sprintf("%s/%s/%s?AWSAccessKeyId=%s&Expires=%s&Signature=%s", $endpoint, $bucket, $objectKey   , $key, $expires, urlencode($sig));
