@@ -10,9 +10,13 @@ window.onload = function() {
       var file = files[i];
       var key = "1202/" + file.name;
       var contentType = file.type;
-      getSignedUrl(bucket, key, contentType, function(signedURL){
-        uploadToS3(file, signedURL);
-      });
+      getSignedUrl(bucket, key, contentType,
+                   function(signedURL){// on success
+                     uploadToS3(file, signedURL);
+                   },
+                   function(status) {// on error
+                     setProgress(0, 'Could not contact signing script. Status = ' + status);
+                   });
     }
   }
   , false);
@@ -25,7 +29,7 @@ window.onload = function() {
 /**
  * get Signed URL and Execute the callback
  */
-function getSignedUrl(bucketName, objectKey, contentType, callback)
+function getSignedUrl(bucketName, objectKey, contentType, onSuccess, onError)
 {
   var url = 'signput.php?bucket=' + bucketName + '&key=' + objectKey + '&type=' + contentType;
   var xhr = new XMLHttpRequest();
@@ -36,11 +40,11 @@ function getSignedUrl(bucketName, objectKey, contentType, callback)
 
   xhr.onreadystatechange = function(e) {
     if (this.readyState == 4 && this.status == 200)    {
-      callback(decodeURIComponent(this.responseText));
+      onSuccess(decodeURIComponent(this.responseText));
     }
     else if(this.readyState == 4 && this.status != 200)
     {
-      setProgress(0, 'Could not contact signing script. Status = ' + this.status);
+      onError(this.status);
     }
   };
 
