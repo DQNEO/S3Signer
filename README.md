@@ -5,7 +5,9 @@ You can upload files from your browser directly to AmazonS3.
 
 ## INSTALL
 
+```
 composer require dqneo/s3signer
+```
 
 ## AUTHOR
 
