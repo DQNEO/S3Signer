@@ -99,6 +99,7 @@ function uploadToS3(file, url, acl)
 
   xhr.setRequestHeader('Content-Type', file.type);
   xhr.setRequestHeader('x-amz-acl', acl);
+  xhr.setRequestHeader('x-amz-meta-myname', "DQNEO");
 
   xhr.send(file);
 }
