@@ -5,7 +5,10 @@ window.onload = function() {
       var files = event.target.files;
       var output = [];
       for (var i = 0; i < files.length; i++) {
-        uploadFile(files[i]);
+        var file = files[i];
+        getSignedUrl(file, function(signedURL){
+          uploadToS3(file, signedURL);
+        });
       }
     }
 , false);
@@ -29,12 +32,13 @@ function createCORSRequest(method, url) {
 
 
 /**
- * Execute the given callback with the signed response.
+ * get Signed URL and Execute the callback
  */
-function executeOnSignedUrl(file, callback)
+function getSignedUrl(file, callback)
 {
+  var url = 'signput.php?name=' + file.name + '&type=' + file.type;
   var xhr = new XMLHttpRequest();
-  xhr.open('GET', 'signput.php?name=' + file.name + '&type=' + file.type, true);
+  xhr.open('GET', url, true);
 
   // Hack to pass bytes through unprocessed.
   xhr.overrideMimeType('text/plain; charset=x-user-defined');
@@ -50,14 +54,6 @@ function executeOnSignedUrl(file, callback)
   };
 
   xhr.send();
-}
-
-function uploadFile(file)
-{
-  executeOnSignedUrl(file, function(signedURL)
-  {
-    uploadToS3(file, signedURL);
-  });
 }
 
 /**
