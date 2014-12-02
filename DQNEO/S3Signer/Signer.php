@@ -1,5 +1,7 @@
 <?php
-class S3Signature
+namespace DQNEO\S3Signer;
+
+class Signer
 {
     public static function getSignedURL($httpVerb, $key, $secret, $endpoint, $bucket, $objectKey, $expires, $contentType, $acl, array $metas)
     {

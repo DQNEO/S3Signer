@@ -2,7 +2,9 @@
 //
 // Change the following settings
 //
-require_once __DIR__ . '/S3Signature.php';
+use \DQNEO\S3Signer\Signer;
+
+require_once __DIR__ . '/DQNEO/S3Signer/Signer.php';
 $cred = require_once __DIR__ . '/credentials.php';
 
 $now = time();
@@ -20,6 +22,6 @@ $metas = [
     ];
 $acl = $_GET['acl'];
 
-$url = S3Signature::getSignedURL('PUT', $cred['key'], $cred['secret'], $endpoint, $bucket, $objectKey, $expires, $mimeType, $acl, $metas);
+$url = Signer::getSignedURL('PUT', $cred['key'], $cred['secret'], $endpoint, $bucket, $objectKey, $expires, $mimeType, $acl, $metas);
 header("Content-typte: application/json");
 echo json_encode(['url' =>$url]);
