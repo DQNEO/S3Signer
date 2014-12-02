@@ -15,7 +15,16 @@ $objectKey=$_GET['key'];
 $mimeType=$_GET['type'];
 $amzHeaders = [];
 $amzHeaders[] = "x-amz-acl:" . $_GET['acl'];
-$amzHeaders[] = "x-amz-meta-myname:" . "DQNEO";
+
+$myname = $_GET['myname'];
+
+$metas = [
+    'myname' => $myname,
+    ];
+
+foreach($metas as $k => $v) {
+    $amzHeaders[] = sprintf("x-amz-meta-%s:%s", $k, $v);
+}
 
 $url = getSignedURL('PUT', $cred['key'], $cred['secret'], $endpoint, $bucket, $objectKey, $expires, $mimeType, $amzHeaders);
 header("Content-typte: application/json");
