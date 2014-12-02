@@ -17,19 +17,6 @@ window.onload = function() {
 };
 
 
-function newCORSXHR(method, url) {
-  var xhr = new XMLHttpRequest();
-  if ("withCredentials" in xhr) {
-    xhr.open(method, url, true);
-  } else if (typeof XDomainRequest != "undefined") {
-    xhr = new XDomainRequest();
-    xhr.open(method, url);
-  } else {
-    xhr = null;
-  }
-  return xhr;
-}
-
 
 /**
  * get Signed URL and Execute the callback
@@ -54,6 +41,19 @@ function getSignedUrl(file, callback)
   };
 
   xhr.send();
+}
+
+function newCORSXHR(method, url) {
+  var xhr = new XMLHttpRequest();
+  if ("withCredentials" in xhr) {
+    xhr.open(method, url, true);
+  } else if (typeof XDomainRequest != "undefined") {
+    xhr = new XDomainRequest();
+    xhr.open(method, url);
+  } else {
+    xhr = null;
+  }
+  return xhr;
 }
 
 /**
