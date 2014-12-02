@@ -4,7 +4,7 @@
   <title>Example page of using AmazonS3 direct upload</title>
  <script src="main.js"></script>
  <script>
-   var onProgress = function(percent, statusLabel) {
+   Uploader.onProgress = function(percent, statusLabel) {
      document.getElementById('pbar').value = percent;
      document.getElementById('pbar').max = 100;
      document.getElementById('status').innerText = statusLabel;
@@ -13,7 +13,7 @@
    window.onload = function() {
 
    document.getElementById('files').addEventListener('change', Uploader.onupload, false);
-   onProgress(0, 'Waiting for upload.');
+   Uploader.onProgress(0, 'Waiting for upload.');
    };
 
 

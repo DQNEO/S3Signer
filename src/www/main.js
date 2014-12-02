@@ -1,6 +1,6 @@
 var Uploader = {};
   Uploader.onupload = function (event){
-    onProgress(0, 'Upload started.');
+    Uploader.onProgress(0, 'Upload started.');
     var bucket = "tmpdqneo";
     var files = event.target.files;
     var output = [];
@@ -18,7 +18,7 @@ var Uploader = {};
              Uploader.uploadToS3(file, decodeURIComponent(responseJson.url), acl, meta);
            },
            function(status) {// on error
-             onProgress(0, 'Could not contact signing script. Status = ' + status);
+             Uploader.onProgress(0, 'Could not contact signing script. Status = ' + status);
            });
     }
   };
@@ -74,20 +74,20 @@ Uploader.uploadToS3 = function(file, url, acl, metadata)
 
   xhr.onload = function() {
     if(xhr.status == 200){
-      onProgress(100, 'Upload completed.');
+      Uploader.onProgress(100, 'Upload completed.');
     } else {
-      onProgress(0, 'Upload error: ' + xhr.status);
+      Uploader.onProgress(0, 'Upload error: ' + xhr.status);
     }
   };
 
   xhr.onerror = function()     {
-    onProgress(0, 'XHR error.');
+    this.onProgress(0, 'XHR error.');
   };
 
   xhr.upload.onprogress = function(e)     {
     if (e.lengthComputable)       {
       var percentLoaded = Math.round((e.loaded / e.total) * 100);
-      onProgress(percentLoaded, percentLoaded == 100 ? 'Finalizing.' : 'Uploading.');
+      Uploader.onProgress(percentLoaded, percentLoaded == 100 ? 'Finalizing.' : 'Uploading.');
     }
   };
 
