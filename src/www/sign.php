@@ -14,12 +14,13 @@ $expires= $now + (60 * 5); // 5 minutes later
 $bucket = $_GET['bucket'];
 $objectKey=$_GET['key'];
 $mimeType=$_GET['type'];
-
-$myname = $_GET['myname'];
-$metas = [
-    'myname' => $myname,
-    ];
 $acl = $_GET['acl'];
+
+$meta1 = $_GET['foo'];
+$metas = [
+    'foo' => $meta1,
+    ];
+
 
 $url = Signer::getSignedURL('PUT', $cred['key'], $cred['secret'], Signer::ENDPOINT_TOKYO, $bucket, $objectKey, $expires, $mimeType, $acl, $metas);
 header("Content-typte: application/json");

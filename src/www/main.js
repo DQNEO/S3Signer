@@ -7,13 +7,18 @@ Uploader.onupload = function (event){
   var output = [];
   var acl = 'public-read';
   var dir = '12022129/';
+  var meta = {foo:"bar",};
 
   for (var i = 0; i < files.length; i++) {
     var file = files[i];
     var key = dir +  file.name;
     var contentType = file.type;
-    var meta = {myname: "DQNEO"};
-    var url = 'sign.php?bucket=' + bucket + '&key=' + key + '&type=' + contentType + '&acl=' + acl + '&myname=' + meta.myname;
+    var url = 'sign.php?bucket=' + bucket + '&key=' + key + '&type=' + contentType + '&acl=' + acl;
+
+    for (var prop in meta) {
+      url += '&' + prop + '=' + meta[prop];
+    }
+
     this.ajax(url,
                   function(responseJson){// on success
                     Uploader.uploadToS3(file, decodeURIComponent(responseJson.url), acl, meta);
