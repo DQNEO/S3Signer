@@ -5,16 +5,17 @@ window.onload = function() {
     setProgress(0, 'Upload started.');
     var files = event.target.files;
     var output = [];
+    var acl = 'public-read';
 
     for (var i = 0; i < files.length; i++) {
       var file = files[i];
       var key = "1202/" + file.name;
       var contentType = file.type;
-      var url = 'sign.php?bucket=' + bucket + '&key=' + key + '&type=' + contentType;
+      var url = 'sign.php?bucket=' + bucket + '&key=' + key + '&type=' + contentType + '&acl=' + acl;
 
       ajax(url,
            function(responseJson){// on success
-             uploadToS3(file, decodeURIComponent(responseJson.url));
+             uploadToS3(file, decodeURIComponent(responseJson.url), acl);
            },
            function(status) {// on error
              setProgress(0, 'Could not contact signing script. Status = ' + status);
@@ -70,7 +71,7 @@ function newCORSXHR(method, url) {
  * Use a CORS call to upload the given file to S3. Assumes the url
  * parameter has been signed and is accessable for upload.
  */
-function uploadToS3(file, url)
+function uploadToS3(file, url, acl)
 {
   var xhr = newCORSXHR('PUT', url);
   if (!xhr) {
@@ -97,7 +98,7 @@ function uploadToS3(file, url)
   };
 
   xhr.setRequestHeader('Content-Type', file.type);
-  xhr.setRequestHeader('x-amz-acl', 'public-read');
+  xhr.setRequestHeader('x-amz-acl', acl);
 
   xhr.send(file);
 }

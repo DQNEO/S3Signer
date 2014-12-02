@@ -15,7 +15,7 @@ $bucket = $_GET['bucket'];
 $objectKey=$_GET['key'];
 
 $mimeType=$_GET['type'];
-$acl = "public-read";
+$acl = $_GET['acl'];
 
 
 $url = getURL($cred['key'], $cred['secret'], $endpoint, $bucket, $objectKey, $expires, $acl, $mimeType);
