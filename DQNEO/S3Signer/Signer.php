@@ -1,8 +1,16 @@
 <?php
 namespace DQNEO\S3Signer;
-
+/**
+ * a URL generator for AmazonS3 direct uploading
+ * 
+ * the idea originally comes from http://www.ioncannon.net/programming/1539/direct-browser-uploading-amazon-s3-cors-fileapi-xhr2-and-signed-puts/
+ */
 class Signer
 {
+    /**
+     * generate a URL
+     * @return string $url
+     */
     public static function getSignedURL($httpVerb, $key, $secret, $endpoint, $bucket, $objectKey, $expires, $contentType, $acl, array $metas)
     {
         $amzHeaders = [];
