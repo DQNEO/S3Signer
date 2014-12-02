@@ -1,8 +1,7 @@
-window.onload = function() {
-
-  var bucket = "tmpdqneo";
-  document.getElementById('files').addEventListener('change', function (event){
+var Uploader;
+  Uploader = function (event){
     setProgress(0, 'Upload started.');
+    var bucket = "tmpdqneo";
     var files = event.target.files;
     var output = [];
     var acl = 'public-read';
@@ -22,8 +21,11 @@ window.onload = function() {
              setProgress(0, 'Could not contact signing script. Status = ' + status);
            });
     }
-  }
-  , false);
+  };
+
+window.onload = function() {
+
+  document.getElementById('files').addEventListener('change', Uploader, false);
 
   setProgress(0, 'Waiting for upload.');
 };
