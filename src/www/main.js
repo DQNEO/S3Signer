@@ -4,7 +4,6 @@ Uploader.onupload = function (event){
   this.onProgress(0, 'Upload started.');
   var bucket = "tmpdqneo";
   var files = event.target.files;
-  var output = [];
   var acl = 'public-read';
   var dir = '12022129/';
   var meta = {foo:"bar",};
