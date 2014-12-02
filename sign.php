@@ -17,25 +17,27 @@ $objectKey=$_GET['key'];
 $mimeType=$_GET['type'];
 $acl = $_GET['acl'];
 
+$amzHeaders = [];
+$amzHeaders[] = "x-amz-acl:" . $acl;
 
-$url = getURL($cred['key'], $cred['secret'], $endpoint, $bucket, $objectKey, $expires, $acl, $mimeType);
+$url = getURL($cred['key'], $cred['secret'], $endpoint, $bucket, $objectKey, $expires, $mimeType, $amzHeaders);
 header("Content-typte: application/json");
 echo json_encode(['url' =>$url]);
 
-function getURL($key, $secret, $endpoint, $bucket, $objectKey, $expires, $acl, $contentType)
+function getURL($key, $secret, $endpoint, $bucket, $objectKey, $expires, $contentType, array $amzHeaders)
 {
     // for calculation of Signature, see
     // http://docs.aws.amazon.com/AmazonS3/latest/dev/RESTAuthentication.html#ConstructingTheAuthenticationHeader
     $httpVerb = "PUT";
     $contentMD5 = "";
     $canonicalizedResource = sprintf("/%s/%s", $bucket, $objectKey);
-    $canonicalizedAmzHeaders = "x-amz-acl:" . $acl;
+    $canonicalizedAmzHeaders =  join("\n", $amzHeaders) . "\n";
 
     $stringToSign = $httpVerb . "\n"
         . $contentMD5 . "\n"
         . $contentType . "\n"
         . $expires . "\n"
-        . $canonicalizedAmzHeaders . "\n"
+        . $canonicalizedAmzHeaders
         . $canonicalizedResource;
 
     $sig = base64_encode(hash_hmac('sha1', $stringToSign, $secret, true));
