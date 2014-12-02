@@ -4,7 +4,7 @@
 //
 use \DQNEO\S3Signer\Signer;
 
-require_once __DIR__ . '/DQNEO/S3Signer/Signer.php';
+require_once __DIR__ . '/../../vendor/autoload.php';
 $cred = require_once __DIR__ . '/credentials.php';
 
 $now = time();
