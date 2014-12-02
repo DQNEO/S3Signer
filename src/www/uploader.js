@@ -1,5 +1,8 @@
 var Uploader = {};
 
+Uploader.countSuccess = 0;
+Uploader.countFailure = 0;
+
 Uploader.uploadFiles = function (files) {
   for (var i = 0; i < files.length; i++) {
     var file = files[i];
@@ -19,7 +22,7 @@ Uploader.uploadFiles = function (files) {
                     Uploader.uploadToS3(file, decodeURIComponent(responseJson.url), acl, meta);
                   },
                   function(status) {// on error
-                    Uploader.onProgress(0, 'Could not contact signing script. Status = ' + status);
+                    Uploader.log('Could not contact signing script. Status = ' + status);
                   });
   }
 };
@@ -75,14 +78,14 @@ Uploader.uploadToS3 = function(file, url, acl, metadata)
 
   xhr.onload = function() {
     if(xhr.status == 200){
-      Uploader.onProgress(100, 'Upload completed.');
+      Uploader.onUploadSuccess(file);
     } else {
-      Uploader.onProgress(0, 'Upload error: ' + xhr.status);
+      Uploader.onUploadError(file, xhr);
     }
   };
 
-  xhr.onerror = function()     {
-    this.onProgress(0, 'XHR error.');
+  xhr.onerror = function() {
+      Uploader.onUploadError(file, xhr);
   };
 
   xhr.setRequestHeader('Content-Type', file.type);
@@ -95,5 +98,22 @@ Uploader.uploadToS3 = function(file, url, acl, metadata)
   }
 
   xhr.send(file);
+}
+
+Uploader.onUploadSuccess = function(file) {
+  this.countSuccess++;
+  this.log(this.countSuccess + ' files have been uploaded');
+};
+
+Uploader.onUploadError = function(file, xhr) {
+  this.countFailure++;
+  //override as you like
+  this.log(file.name + " upload failed. status=" +  xhr.status);
+};
+
+Uploader.log = function(msg) {
+  //override as you like
+  console.log(msg);
+  document.getElementById('status').innerText = msg;
 }
 

@@ -11,12 +11,6 @@
      meta : {foo:"bar",},
    };
 
-   Uploader.onProgress = function(percent, statusLabel) {
-     document.getElementById('pbar').value = percent;
-     document.getElementById('pbar').max = 100;
-     document.getElementById('status').innerText = statusLabel;
-   }
-
    window.onload = function() {
      document.getElementById('files').addEventListener('change',
        function(event){
@@ -24,7 +18,7 @@
          Uploader.uploadFiles(files);
        }
        , false);
-     Uploader.onProgress(0, 'Waiting for upload.');
+     Uploader.log('Waiting for upload.');
    };
 
 
@@ -34,7 +28,6 @@
 <body>
 
 <input type="file" id="files" name="files[]" multiple />
-<progress id="pbar" value="0" max="100" style="width:200px;"></progress>
 <div id="status"></div>
 
 </body>
