@@ -26,6 +26,6 @@ function getURL($key, $secret, $endpoint, $bucket, $objectKey, $expires, $acl, $
     $stringToSign = sprintf("PUT\n\n%s\n%s\n%s\n/%s/%s", $mimeType, $expires, $amzHeaders, $bucket, $objectKey);
 
     $sig = base64_encode(hash_hmac('sha1', $stringToSign, $secret, true));
-    $url = urlencode(sprintf("%s/%s/%s?AWSAccessKeyId=%s&Expires=%s&Signature=%s", $endpoint, $bucket, $objectKey   , $key, $expires, $sig));
-    return $url;
+    $url = sprintf("%s/%s/%s?AWSAccessKeyId=%s&Expires=%s&Signature=%s", $endpoint, $bucket, $objectKey   , $key, $expires, $sig);
+    return urlencode($url);
 }
