@@ -5,7 +5,7 @@ window.onload = function() {
     setProgress(0, 'Upload started.');
     var files = event.target.files;
     var output = [];
-    var acl = 'private';
+    var acl = 'public-read';
 
     for (var i = 0; i < files.length; i++) {
       var file = files[i];
