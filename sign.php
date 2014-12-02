@@ -18,7 +18,9 @@ $mimeType=$_GET['type'];
 $acl = "public-read";
 
 
-echo getURL($cred['key'], $cred['secret'], $endpoint, $bucket, $objectKey, $expires, $acl, $mimeType);
+$url = getURL($cred['key'], $cred['secret'], $endpoint, $bucket, $objectKey, $expires, $acl, $mimeType);
+header("Content-typte: application/json");
+echo json_encode(['url' =>$url]);
 
 function getURL($key, $secret, $endpoint, $bucket, $objectKey, $expires, $acl, $mimeType)
 {
@@ -27,5 +29,5 @@ function getURL($key, $secret, $endpoint, $bucket, $objectKey, $expires, $acl, $
 
     $sig = base64_encode(hash_hmac('sha1', $stringToSign, $secret, true));
     $url = sprintf("%s/%s/%s?AWSAccessKeyId=%s&Expires=%s&Signature=%s", $endpoint, $bucket, $objectKey   , $key, $expires, $sig);
-    return urlencode($url);
+    return $url;
 }

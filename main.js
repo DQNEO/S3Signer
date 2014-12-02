@@ -11,8 +11,8 @@ window.onload = function() {
       var key = "1202/" + file.name;
       var contentType = file.type;
       getSignedUrl(bucket, key, contentType,
-                   function(signedURL){// on success
-                     uploadToS3(file, signedURL);
+                   function(responseJson){// on success
+                     uploadToS3(file, responseJson.url);
                    },
                    function(status) {// on error
                      setProgress(0, 'Could not contact signing script. Status = ' + status);
@@ -40,7 +40,8 @@ function getSignedUrl(bucketName, objectKey, contentType, onSuccess, onError)
 
   xhr.onreadystatechange = function(e) {
     if (this.readyState == 4 && this.status == 200)    {
-      onSuccess(decodeURIComponent(this.responseText));
+      var json =JSON.parse(this.responseText);
+      onSuccess(json);
     }
     else if(this.readyState == 4 && this.status != 200)
     {
