@@ -16,6 +16,7 @@ $objectKey=$_GET['key'];
 $mimeType=$_GET['type'];
 $acl = $_GET['acl'];
 
+// meta data. you should remove or customize this.
 $meta1 = $_GET['foo'];
 $metas = [
     'foo' => $meta1,
