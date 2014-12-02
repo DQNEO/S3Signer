@@ -17,7 +17,7 @@ window.onload = function() {
 };
 
 
-function createCORSRequest(method, url) {
+function newCORSXHR(method, url) {
   var xhr = new XMLHttpRequest();
   if ("withCredentials" in xhr) {
     xhr.open(method, url, true);
@@ -62,7 +62,7 @@ function getSignedUrl(file, callback)
  */
 function uploadToS3(file, url)
 {
-  var xhr = createCORSRequest('PUT', url);
+  var xhr = newCORSXHR('PUT', url);
   if (!xhr) {
     setProgress(0, 'CORS not supported');
   } else {
