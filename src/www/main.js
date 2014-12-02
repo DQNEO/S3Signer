@@ -1,5 +1,5 @@
-var Uploader;
-  Uploader = function (event){
+var Uploader = {};
+  Uploader.onupload = function (event){
     onProgress(0, 'Upload started.');
     var bucket = "tmpdqneo";
     var files = event.target.files;
@@ -13,9 +13,9 @@ var Uploader;
       var meta = {myname: "DQNEO"};
       var url = 'sign.php?bucket=' + bucket + '&key=' + key + '&type=' + contentType + '&acl=' + acl + '&myname=' + meta.myname;
 
-      ajax(url,
+      Uploader.ajax(url,
            function(responseJson){// on success
-             uploadToS3(file, decodeURIComponent(responseJson.url), acl, meta);
+             Uploader.uploadToS3(file, decodeURIComponent(responseJson.url), acl, meta);
            },
            function(status) {// on error
              onProgress(0, 'Could not contact signing script. Status = ' + status);
@@ -26,7 +26,7 @@ var Uploader;
 /**
  * get Signed URL and Execute the callback
  */
-function ajax(url, onSuccess, onError)
+Uploader.ajax = function(url, onSuccess, onError)
 {
   var xhr = new XMLHttpRequest();
   xhr.open('GET', url, true);
@@ -48,7 +48,7 @@ function ajax(url, onSuccess, onError)
   xhr.send();
 }
 
-function newCORSXHR(method, url) {
+Uploader.newCORSXHR = function (method, url) {
   var xhr = new XMLHttpRequest();
   if ("withCredentials" in xhr) {
     xhr.open(method, url, true);
@@ -65,9 +65,9 @@ function newCORSXHR(method, url) {
  * Use a CORS call to upload the given file to S3. Assumes the url
  * parameter has been signed and is accessable for upload.
  */
-function uploadToS3(file, url, acl, metadata)
+Uploader.uploadToS3 = function(file, url, acl, metadata)
 {
-  var xhr = newCORSXHR('PUT', url);
+  var xhr = this.newCORSXHR('PUT', url);
   if (!xhr) {
     return false;
   }

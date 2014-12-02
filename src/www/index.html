@@ -12,7 +12,7 @@
 
    window.onload = function() {
 
-   document.getElementById('files').addEventListener('change', Uploader, false);
+   document.getElementById('files').addEventListener('change', Uploader.onupload, false);
    onProgress(0, 'Waiting for upload.');
    };
 
