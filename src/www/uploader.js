@@ -85,13 +85,6 @@ Uploader.uploadToS3 = function(file, url, acl, metadata)
     this.onProgress(0, 'XHR error.');
   };
 
-  xhr.upload.onprogress = function(e)     {
-    if (e.lengthComputable)       {
-      var percentLoaded = Math.round((e.loaded / e.total) * 100);
-      Uploader.onProgress(percentLoaded, percentLoaded == 100 ? 'Finalizing.' : 'Uploading.');
-    }
-  };
-
   xhr.setRequestHeader('Content-Type', file.type);
   xhr.setRequestHeader('x-amz-acl', acl);
 
