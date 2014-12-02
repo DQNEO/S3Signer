@@ -31,7 +31,7 @@ window.onload = function() {
  */
 function getSignedUrl(bucketName, objectKey, contentType, onSuccess, onError)
 {
-  var url = 'signput.php?bucket=' + bucketName + '&key=' + objectKey + '&type=' + contentType;
+  var url = 'sign.php?bucket=' + bucketName + '&key=' + objectKey + '&type=' + contentType;
   var xhr = new XMLHttpRequest();
   xhr.open('GET', url, true);
 
