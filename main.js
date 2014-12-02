@@ -8,12 +8,14 @@ window.onload = function() {
 
     for (var i = 0; i < files.length; i++) {
       var file = files[i];
-      getSignedUrl(bucket, file, function(signedURL){
+      var key = "1202/" + file.name;
+      var contentType = file.type;
+      getSignedUrl(bucket, key, contentType, function(signedURL){
         uploadToS3(file, signedURL);
       });
     }
   }
-                                                    , false);
+  , false);
 
   setProgress(0, 'Waiting for upload.');
 };
@@ -23,9 +25,9 @@ window.onload = function() {
 /**
  * get Signed URL and Execute the callback
  */
-function getSignedUrl(bucket, file, callback)
+function getSignedUrl(bucketName, objectKey, contentType, callback)
 {
-  var url = 'signput.php?bucket=' + bucket + '&name=' + file.name + '&type=' + file.type;
+  var url = 'signput.php?bucket=' + bucketName + '&key=' + objectKey + '&type=' + contentType;
   var xhr = new XMLHttpRequest();
   xhr.open('GET', url, true);
 
