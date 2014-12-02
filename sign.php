@@ -13,25 +13,26 @@ $endpoint='http://s3-ap-northeast-1.amazonaws.com';
 $bucket = $_GET['bucket'];
 $objectKey=$_GET['key'];
 $mimeType=$_GET['type'];
-$amzHeaders = [];
-$amzHeaders[] = "x-amz-acl:" . $_GET['acl'];
 
 $myname = $_GET['myname'];
-
 $metas = [
     'myname' => $myname,
     ];
+$acl = $_GET['acl'];
 
-foreach($metas as $k => $v) {
-    $amzHeaders[] = sprintf("x-amz-meta-%s:%s", $k, $v);
-}
-
-$url = getSignedURL('PUT', $cred['key'], $cred['secret'], $endpoint, $bucket, $objectKey, $expires, $mimeType, $amzHeaders);
+$url = getSignedURL('PUT', $cred['key'], $cred['secret'], $endpoint, $bucket, $objectKey, $expires, $mimeType, $acl, $metas);
 header("Content-typte: application/json");
 echo json_encode(['url' =>$url]);
 
-function getSignedURL($httpVerb, $key, $secret, $endpoint, $bucket, $objectKey, $expires, $contentType, array $amzHeaders)
+function getSignedURL($httpVerb, $key, $secret, $endpoint, $bucket, $objectKey, $expires, $contentType, $acl, array $metas)
 {
+    $amzHeaders = [];
+    $amzHeaders[] = "x-amz-acl:" . $_GET['acl'];
+
+    foreach($metas as $k => $v) {
+        $amzHeaders[] = sprintf("x-amz-meta-%s:%s", $k, $v);
+    }
+
     $sig = getSignature($httpVerb, $bucket, $objectKey, $amzHeaders, $contentType, $expires, $secret);
     $url = sprintf("%s/%s/%s?AWSAccessKeyId=%s&Expires=%s&Signature=%s", $endpoint, $bucket, $objectKey   , $key, $expires, urlencode($sig));
     return urlencode($url);
