@@ -117,10 +117,10 @@ function uploadToS3(file, url)
  
 function setProgress(percent, statusLabel)
 {
-  var progress = document.querySelector('.percent');
-  progress.style.width = percent + '%';
-  progress.textContent = percent + '%';
+  document.getElementById('pbar').value = percent;
+  document.getElementById('pbar').max = 100;
+
   document.getElementById('progress_bar').className = 'loading';
- 
   document.getElementById('status').innerText = statusLabel;
+  
 }
