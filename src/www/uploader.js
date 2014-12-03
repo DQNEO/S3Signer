@@ -12,6 +12,9 @@ Uploader.uploadFiles = function (files) {
     var meta = this.config.meta;
     var bucket = this.config.bucket;
 
+    var PROTO = 'https';
+    var END_POINT = 's3-ap-northeast-1.amazonaws.com';
+
     var url = 'sign.php?bucket=' + bucket + '&key=' + key + '&type=' + contentType + '&acl=' + acl;
     for (var prop in meta) {
       url += '&' + prop + '=' + meta[prop];
@@ -20,11 +23,9 @@ Uploader.uploadFiles = function (files) {
     this.ajax(url,file,key,
                   function(responseJson,file,objectKey){// on success
                     var query = decodeURIComponent(responseJson.query);
-                    var proto = 'https';
-                    var END_POINT = 's3-ap-northeast-1.amazonaws.com';
-                    var url = proto + '://' +  END_POINT + '/' + bucket + '/' + objectKey + '?' + query;
-                    console.log(query);
-                    console.log(url);
+                    var url = PROTO + '://' +  END_POINT + '/' + bucket + '/' + objectKey + '?' + query;
+                    //console.log(query);
+                    //console.log(url);
 
                     Uploader.uploadToS3(file, url, acl, meta);
                   },
