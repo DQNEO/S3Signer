@@ -17,9 +17,18 @@ Uploader.uploadFiles = function (files) {
       url += '&' + prop + '=' + meta[prop];
     }
 
-    this.ajax(url,file,
-                  function(responseJson,file){// on success
-                    Uploader.uploadToS3(file, decodeURIComponent(responseJson.url), acl, meta);
+    this.ajax(url,file,key,
+                  function(responseJson,file,objectKey){// on success
+                    var urlToPut = decodeURIComponent(responseJson.url);
+                    var query = decodeURIComponent(responseJson.query);
+                    //var urlToPut2 = 'https://s3-ap-northeast-1.amazonaws.com' + bucket + '/' + 
+
+                    console.log(urlToPut);
+                    console.log(query);
+                    var url2 = 'https://s3-ap-northeast-1.amazonaws.com/' + bucket + '/' + objectKey + '?' + query;
+                    console.log(url2);
+
+                    Uploader.uploadToS3(file, urlToPut, acl, meta);
                   },
                   function(status,responseText) {// on error
                     Uploader.log('Could not contact signing script. Status = ' + status + 'Response=' + responseText);
@@ -30,7 +39,7 @@ Uploader.uploadFiles = function (files) {
 /**
  * get Signed URL and Execute the callback
  */
-Uploader.ajax = function(url, file, onSuccess, onError)
+Uploader.ajax = function(url, file, key, onSuccess, onError)
 {
   var xhr = new XMLHttpRequest();
   xhr.open('GET', url, true);
@@ -47,7 +56,7 @@ Uploader.ajax = function(url, file, onSuccess, onError)
         onError(this.status, this.responseText);
         return;
       }
-      onSuccess(json, file);
+      onSuccess(json, file , key);
     }
     else if(this.readyState == 4 && this.status != 200)
     {
