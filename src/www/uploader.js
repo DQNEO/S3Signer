@@ -21,8 +21,8 @@ Uploader.uploadFiles = function (files) {
                   function(responseJson){// on success
                     Uploader.uploadToS3(file, decodeURIComponent(responseJson.url), acl, meta);
                   },
-                  function(status) {// on error
-                    Uploader.log('Could not contact signing script. Status = ' + status);
+                  function(status,responseText) {// on error
+                    Uploader.log('Could not contact signing script. Status = ' + status + 'Response=' + responseText);
                   });
   }
 };
@@ -40,12 +40,18 @@ Uploader.ajax = function(url, onSuccess, onError)
 
   xhr.onreadystatechange = function(e) {
     if (this.readyState == 4 && this.status == 200)    {
-      var json =JSON.parse(this.responseText);
+      var json;
+      try {
+        json =JSON.parse(this.responseText);
+      } catch(e) {
+        onError(this.status, this.responseText);
+        return;
+      }
       onSuccess(json);
     }
     else if(this.readyState == 4 && this.status != 200)
     {
-      onError(this.status);
+      onError(this.status, this.responseText);
     }
   };
 
