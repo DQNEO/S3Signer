@@ -17,8 +17,8 @@ Uploader.uploadFiles = function (files) {
       url += '&' + prop + '=' + meta[prop];
     }
 
-    this.ajax(url,
-                  function(responseJson){// on success
+    this.ajax(url,file,
+                  function(responseJson,file){// on success
                     Uploader.uploadToS3(file, decodeURIComponent(responseJson.url), acl, meta);
                   },
                   function(status,responseText) {// on error
@@ -30,7 +30,7 @@ Uploader.uploadFiles = function (files) {
 /**
  * get Signed URL and Execute the callback
  */
-Uploader.ajax = function(url, onSuccess, onError)
+Uploader.ajax = function(url, file, onSuccess, onError)
 {
   var xhr = new XMLHttpRequest();
   xhr.open('GET', url, true);
@@ -47,7 +47,7 @@ Uploader.ajax = function(url, onSuccess, onError)
         onError(this.status, this.responseText);
         return;
       }
-      onSuccess(json);
+      onSuccess(json, file);
     }
     else if(this.readyState == 4 && this.status != 200)
     {
