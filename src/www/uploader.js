@@ -20,7 +20,9 @@ Uploader.uploadFiles = function (files) {
     this.ajax(url,file,key,
                   function(responseJson,file,objectKey){// on success
                     var query = decodeURIComponent(responseJson.query);
-                    var url = 'https://s3-ap-northeast-1.amazonaws.com/' + bucket + '/' + objectKey + '?' + query;
+                    var proto = 'https';
+                    var END_POINT = 's3-ap-northeast-1.amazonaws.com';
+                    var url = proto + '://' +  END_POINT + '/' + bucket + '/' + objectKey + '?' + query;
                     console.log(query);
                     console.log(url);
 
