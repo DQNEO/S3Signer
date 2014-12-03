@@ -23,6 +23,6 @@ $metas = [
     ];
 
 
-$url = Signer::getSignedURL('PUT', $cred['key'], $cred['secret'], Signer::ENDPOINT_TOKYO, $bucket, $objectKey, $expires, $mimeType, $acl, $metas);
+$json =  Signer::getSignedURL('PUT', $cred['key'], $cred['secret'], Signer::ENDPOINT_TOKYO, $bucket, $objectKey, $expires, $mimeType, $acl, $metas);
 header("Content-typte: application/json");
-echo json_encode(['url' =>$url]);
+echo $json;
