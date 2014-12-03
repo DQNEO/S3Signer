@@ -7,6 +7,11 @@ use \DQNEO\S3Signer\Signer;
 require_once __DIR__ . '/../../vendor/autoload.php';
 $cred = require_once __DIR__ . '/credentials.php';
 
+
+$cred = [
+    'key' => getenv('AWS_ACCESS_KEY_ID'),
+    'secret' => getenv('AWS_SECRET_ACCESS_KEY'),
+    ];
 $now = time();
 //$now = 1234567890;
 
