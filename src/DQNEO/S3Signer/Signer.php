@@ -24,9 +24,7 @@ class Signer
         $sig = self::getSignature($httpVerb, $bucket, $objectKey, $amzHeaders, $contentType, $expires, $secret);
         $query = sprintf("AWSAccessKeyId=%s&Expires=%s&Signature=%s",
                          $key, $expires, urlencode($sig));
-        $url = sprintf("%s/%s/%s?%s", $endpoint, $bucket, $objectKey, $query);
         return json_encode([
-                               'url' => urlencode($url),
                                'query' => urlencode($query)
                                ]);
     }

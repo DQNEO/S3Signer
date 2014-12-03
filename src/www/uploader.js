@@ -19,16 +19,12 @@ Uploader.uploadFiles = function (files) {
 
     this.ajax(url,file,key,
                   function(responseJson,file,objectKey){// on success
-                    var urlToPut = decodeURIComponent(responseJson.url);
                     var query = decodeURIComponent(responseJson.query);
-                    //var urlToPut2 = 'https://s3-ap-northeast-1.amazonaws.com' + bucket + '/' + 
-
-                    console.log(urlToPut);
+                    var url = 'https://s3-ap-northeast-1.amazonaws.com/' + bucket + '/' + objectKey + '?' + query;
                     console.log(query);
-                    var url2 = 'https://s3-ap-northeast-1.amazonaws.com/' + bucket + '/' + objectKey + '?' + query;
-                    console.log(url2);
+                    console.log(url);
 
-                    Uploader.uploadToS3(file, urlToPut, acl, meta);
+                    Uploader.uploadToS3(file, url, acl, meta);
                   },
                   function(status,responseText) {// on error
                     Uploader.log('Could not contact signing script. Status = ' + status + 'Response=' + responseText);
