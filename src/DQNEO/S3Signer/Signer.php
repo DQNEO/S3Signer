@@ -21,6 +21,9 @@ class Signer
             $amzHeaders[] = sprintf("x-amz-meta-%s:%s", $k, $v);
         }
 
+        ksort($amzHeaders);
+
+
         $sig = self::getSignature($httpVerb, $bucket, $objectKey, $amzHeaders, $contentType, $expires, $secret);
         $query = sprintf("AWSAccessKeyId=%s&Expires=%s&Signature=%s",
                          $key, $expires, urlencode($sig));
