@@ -12,7 +12,7 @@ Uploader.uploadFiles = function (files) {
     var meta = this.config.meta;
     var bucket = this.config.bucket;
 
-    var END_POINT = 's3-ap-northeast-1.amazonaws.com';
+    var endpoint = this.config.endpoint;
 
     var url = 'sign.php?bucket=' + bucket + '&key=' + key + '&type=' + contentType + '&acl=' + acl;
     for (var prop in meta) {
@@ -22,7 +22,7 @@ Uploader.uploadFiles = function (files) {
     this.ajax(url,file,key,
                   function(responseJson,file,objectKey){// on success
                     var query = decodeURIComponent(responseJson.query);
-                    var url = '//' +  END_POINT + '/' + bucket + '/' + objectKey + '?' + query;
+                    var url = '//' +  endpoint + '/' + bucket + '/' + objectKey + '?' + query;
                     //console.log(query);
                     //console.log(url);
 
