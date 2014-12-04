@@ -3,10 +3,14 @@ var Uploader = {};
 Uploader.countSuccess = 0;
 Uploader.countFailure = 0;
 
+Uploader.makeKey = function (filename) {
+  return this.config.prefix +  file.name;
+};
+
 Uploader.uploadFiles = function (files) {
   for (var i = 0; i < files.length; i++) {
     var file = files[i];
-    var key = this.config.prefix +  file.name;
+    var key = this.makeKey(file.name);
     var contentType = file.type;
     var acl = this.config.acl;
     var meta = this.config.meta;
