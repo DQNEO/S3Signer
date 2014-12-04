@@ -128,5 +128,6 @@ Uploader.log = function(msg) {
   //override as you like
   console.log(msg);
   document.getElementById('status').innerText = msg;
-}
+};
+
 
