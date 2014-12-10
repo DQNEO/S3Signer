@@ -4,7 +4,7 @@ Uploader.countSuccess = 0;
 Uploader.countFailure = 0;
 
 Uploader.makeKey = function (filename) {
-  return this.config.prefix +  file.name;
+  return this.config.prefix +  filename;
 };
 
 Uploader.uploadFiles = function (files) {
