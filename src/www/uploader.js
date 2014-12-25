@@ -47,7 +47,7 @@ Uploader.ajax = function(url, file, key, onSuccess, onError)
   xhr.open('GET', url, true);
 
   // Hack to pass bytes through unprocessed.
-  xhr.overrideMimeType('text/plain; charset=x-user-defined');
+  //xhr.overrideMimeType('text/plain; charset=x-user-defined');
 
   xhr.onreadystatechange = function(e) {
     if (this.readyState == 4 && this.status == 200)    {
