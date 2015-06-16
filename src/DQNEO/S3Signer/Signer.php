@@ -36,7 +36,6 @@ class Signer
     {
         // for calculation of Signature, see
         // http://docs.aws.amazon.com/AmazonS3/latest/dev/RESTAuthentication.html#ConstructingTheAuthenticationHeader
-        $httpVerb = "PUT";
         $contentMD5 = "";
         $canonicalizedResource = sprintf("/%s/%s", $bucket, $objectKey);
         $canonicalizedAmzHeaders =  join("\n", $amzHeaders) . "\n";
