@@ -15,7 +15,9 @@ class Signer
     public static function getSignedURL($httpVerb, $key, $secret, $endpoint, $bucket, $objectKey, $expires, $contentType, $acl, array $metas)
     {
         $amzHeaders = [];
-        $amzHeaders[] = "x-amz-acl:" . $_GET['acl'];
+        if (!empty($acl)) {
+            $amzHeaders[] = "x-amz-acl:" . $acl;
+        }
 
         foreach($metas as $k => $v) {
             $amzHeaders[] = sprintf("x-amz-meta-%s:%s", $k, $v);
