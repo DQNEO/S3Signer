@@ -39,7 +39,7 @@ class Signer
         $httpVerb = "PUT";
         $contentMD5 = "";
         $canonicalizedResource = sprintf("/%s/%s", $bucket, $objectKey);
-        $canonicalizedAmzHeaders =  join("\n", $amzHeaders) . "\n";
+        $canonicalizedAmzHeaders = empty($amzHeaders) ? '' : join("\n", $amzHeaders) . "\n";
 
         $stringToSign = $httpVerb . "\n"
             . $contentMD5 . "\n"
