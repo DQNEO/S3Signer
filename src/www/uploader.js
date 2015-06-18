@@ -18,7 +18,7 @@ Uploader.uploadFiles = function (files) {
 
     var endpoint = this.config.endpoint;
 
-    var url = 'sign.php?bucket=' + bucket + '&key=' + key + '&type=' + contentType + '&acl=' + acl;
+    var url = 'sign.php?bucket=' + bucket + '&key=' + key + '&type=' + contentType + '&acl=' + acl + '&httpverb=PUT';
     for (var prop in meta) {
       url += '&' + prop + '=' + meta[prop];
     }
