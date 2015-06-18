@@ -40,7 +40,7 @@ class Signer
         // http://docs.aws.amazon.com/AmazonS3/latest/dev/RESTAuthentication.html#ConstructingTheAuthenticationHeader
         $contentMD5 = "";
         $canonicalizedResource = sprintf("/%s/%s", $bucket, $objectKey);
-        $canonicalizedAmzHeaders =  join("\n", $amzHeaders) . "\n";
+        $canonicalizedAmzHeaders = empty($amzHeaders) ? '' : join("\n", $amzHeaders) . "\n";
 
         $stringToSign = $httpVerb . "\n"
             . $contentMD5 . "\n"
